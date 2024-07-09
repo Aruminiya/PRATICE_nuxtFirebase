@@ -45,7 +45,7 @@ const upLoadImg = async () => {
     return;
   }
 
-  // 創建一個儲存指標為 'images/mountains.jpg'
+  // 創建一個儲存指標為 'images/${selectedFile.value.name}'
   // `reference` 是一個指向特定存儲位置的指標
   const imagesRef = firebaseRef(storage, `images/${selectedFile.value.name}`);
   console.log(imagesRef);
@@ -84,6 +84,8 @@ onMounted(()=>{
   // 引用初始化的 firebase 實例
   const app = getApp();
   console.log(app);
+
+  // 初始化 Storage
   storage = getStorage(app);
 })
 </script>
