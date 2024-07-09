@@ -2,7 +2,7 @@
   <section class="grid grid-cols-9 gap-4 mt-12">
     <!-- 說明區塊 -->
     <section class="col-span-9">
-      <h1 class="font-bold">Firebase Storage 練習測試的程序</h1>
+      <h1 class="font-bold">Firebase Storage - uploadFile 上傳檔案</h1>
     </section>
     <!-- 操作區塊 -->
     <section class="col-span-9">
@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import { getStorage, ref as firebaseRef, uploadBytes } from "firebase/storage";
+import { getStorage, ref as firebaseRef, uploadBytes, getDownloadURL } from "firebase/storage";
 import { getApp } from 'firebase/app';
 
 const result = ref(null);
@@ -56,10 +56,14 @@ const upLoadImg = async () => {
     const snapshot = await uploadBytes(imagesRef, selectedFile.value);
     console.log('Uploaded a blob or file!', snapshot);
 
+    // 確保文件上傳後再獲取下載 URL
+    const downloadUrl = await getDownloadURL(snapshot.ref);
+
     // 確保文件上傳完成後再返回響應
     const response = {
       message: '成功串接 API',
       snapshot: snapshot,
+      imgUrl: downloadUrl
     };
     console.log(response);
 

@@ -41,9 +41,14 @@ const methodColor = (color)=>{
 
 const links = ref([
   {
-    link: '/storage',
-    name: 'Storage',
+    link: '/storage/uploadFile',
+    name: 'uploadFile',
     descript: '可讓您上傳及分享使用者原創內容 (例如圖片和影片)',
+  },
+  {
+    link: '/storage/listFile',
+    name: 'listFile',
+    descript: '可讓您列出 Cloud Storage 值區的內容',
   },
 ]);
 
