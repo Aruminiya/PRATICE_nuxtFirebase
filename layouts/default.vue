@@ -50,6 +50,11 @@ const links = ref([
     name: 'listFile',
     descript: '可讓您列出 Cloud Storage 值區的內容',
   },
+  {
+    link: '/firestore/getData',
+    name: 'getData',
+    descript: '取得儲存在 Cloud Firestore 中的資料',
+  }
 ]);
 
 </script>
