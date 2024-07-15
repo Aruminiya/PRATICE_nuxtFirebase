@@ -13,8 +13,10 @@
 </template>
 
 <script setup>
-import { getFirestore } from "firebase/storage";
+import { getFirestore } from "firebase/firestore";
 import { getApp } from 'firebase/app';
+
+const result = ref(null);
 
 // 引用初始化的 firebase 實例
 let firestore
@@ -30,6 +32,6 @@ onMounted(()=>{
   console.log(app);
 
   // 初始化 Storage
-  storage = getFirestore(app);
+  firestore = getFirestore(app);
 })
 </script>
