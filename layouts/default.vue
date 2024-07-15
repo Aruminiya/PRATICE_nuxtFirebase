@@ -78,9 +78,9 @@ const links = ref([
     name: "Example 應用測試",
     childLinks: [
       {
-        link: '/example/article',
-        name: '文章應用測試',
-        descript: 'Article 文章應用測試',
+        link: '/example/postArticle',
+        name: '新增文章應用測試',
+        descript: 'Post Article 新增文章應用測試',
       }
     ] 
   }
