@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, collection, doc, setDoc, getDocs, query } from "firebase/firestore";
 import { getApp } from 'firebase/app';
 
 const result = ref(null);
@@ -23,7 +23,15 @@ let firestore
 
 // 取得資料
 const getData = async () => {
-
+  try {
+    const q = query(collection(firestore, "post"));
+    const querySnapshot = await getDocs(q);
+    const data = querySnapshot.docs.map(doc => doc.data());
+    console.log(data);
+    result.value = data;
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 onMounted(()=>{
@@ -32,6 +40,6 @@ onMounted(()=>{
   console.log(app);
 
   // 初始化 Storage
-  firestore = getFirestore(app);
+  firestore = getFirestore(app, 'testdb');
 })
 </script>
