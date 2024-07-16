@@ -14,11 +14,10 @@ import {
 // 表單驗證工具
 import validator from 'validator';
 
+// 初始化 Firestore
 export const initFirestore = () => {
   // 引用初始化的 firebase 實例
   const app = getApp();
-
-  // 初始化 Firestore
   return getFirestore(app, 'testdb');
 }
 
