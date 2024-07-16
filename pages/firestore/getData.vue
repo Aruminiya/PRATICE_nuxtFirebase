@@ -1,5 +1,5 @@
 <template>
-  <section class="grid grid-cols-9 gap-4 mt-12">
+  <main class="grid grid-cols-9 gap-4 mt-12">
     <!-- 說明區塊 -->
     <section class="col-span-9">
       <h1 class="font-bold">Cloud Firestore - getData 取得資料</h1>
@@ -9,11 +9,11 @@
       <UButton @click="getData">執行取的資料</UButton>
       <vue-json-pretty :data="result" />
     </section>
-  </section>
+  </main>
 </template>
 
 <script setup>
-import { getFirestore, collection, doc, setDoc, getDocs, query } from "firebase/firestore";
+import { getFirestore, collection, getDocs, query } from "firebase/firestore";
 import { getApp } from 'firebase/app';
 
 const result = ref(null);

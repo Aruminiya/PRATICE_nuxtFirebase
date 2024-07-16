@@ -71,6 +71,11 @@ const links = ref([
         link: '/firestore/postData',
         name: 'postData',
         descript: '新增資料在 Cloud Firestore 中',
+      },
+      {
+        link: '/firestore/updateData',
+        name: 'updateData',
+        descript: '更新儲存在 Cloud Firestore 中的資料',
       }
     ] 
   },
