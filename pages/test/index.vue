@@ -11,12 +11,15 @@
       <hr class="my-3"/>
       <h3 class="font-bold mb-3">上傳文章</h3>
       <UButton @click="uploadArticlesBtn">上傳文章</UButton>
+      <hr class="my-3"/>
+      <h3 class="font-bold mb-3">取得單一文章</h3>
+      <UButton @click="getArticleBtn">取得單一文章</UButton>
     </section>
   </section>
 </template>
 
 <script setup>
-import { initFirestore, listArticles, uploadArticles } from '@/composables/article.js';
+import { initFirestore, listArticles, uploadArticles, getArticle } from '@/composables/article.js';
 
 // 引用初始化的 firebase 實例
 let firestore
@@ -32,6 +35,12 @@ const postData = { title: "標題 ABC", content: "內文 ABC", image: "" }
 const uploadArticlesBtn = async () => {
   const toPostData = uploadArticles(firestore, postData);
   console.log(toPostData);
+}
+
+// 取得單一文章
+const getArticleBtn = async () => {
+  const getData = await getArticle(firestore, "5b8cd485ccf49f9d3080");
+  console.log(getData);
 }
 
 onMounted(()=>{

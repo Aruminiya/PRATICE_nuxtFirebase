@@ -7,6 +7,8 @@ import {
   limit,
   orderBy,
   addDoc,
+  doc,
+  getDoc
 } from "firebase/firestore";
 
 // 表單驗證工具
@@ -52,6 +54,16 @@ export const listArticles = async (firestore, limitCount = 10) => {
       }
     });
     return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// 取得單一貼文
+export const getArticle = async (firestore, id) => {
+  try {
+    const docSnap = await getDoc(doc(firestore, "testComposablePosts", id));
+    return {id, ...(docSnap.data())}
   } catch (error) {
     throw error;
   }
