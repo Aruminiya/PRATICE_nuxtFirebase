@@ -28,9 +28,9 @@ let firestore
 const postData = async () => {
   try {
     const newPost = await setDoc(doc(firestore, "testPosts", cryptoRandomString({length: 20})), {
-      content: "新增測試文章內容03",
-      title: "新增測試文章內容03",
-      image: "新增測試文章圖片03"
+      content: "新增測試文章內容22",
+      title: "新增測試文章內容22",
+      image: "新增測試文章圖片22"
     });
     console.log("新增測試文章成功！");
     result.value = "新增測試文章成功！";

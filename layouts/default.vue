@@ -44,6 +44,16 @@ const methodColor = (color)=>{
 }
 
 const links = ref([
+{ 
+    name: "test",
+    childLinks: [
+      {
+      link: '/test',
+      name: '自由測試區',
+      descript: '自由測試區',
+      }
+    ] 
+  },
   { 
     name: "storage",
     childLinks: [
