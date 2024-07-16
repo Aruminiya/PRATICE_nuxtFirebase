@@ -13,11 +13,8 @@
 </template>
 
 <script setup>
-import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { getApp } from 'firebase/app';
-
-// 隨機字串產生
-import cryptoRandomString from 'crypto-random-string';
 
 const result = ref(null);
 
@@ -27,10 +24,11 @@ let firestore
 // 新增資料
 const postData = async () => {
   try {
-    const newPost = await setDoc(doc(firestore, "testPosts", cryptoRandomString({length: 20})), {
-      content: "新增測試文章內容22",
-      title: "新增測試文章內容22",
-      image: "新增測試文章圖片22"
+    // 您可以讓 Cloud Firestore 自動為您產生 ID。呼叫下列語言專屬的 add() 方法即可執行此操作
+    const newPost = await addDoc(collection(firestore, "testPosts"), {
+      content: "新增測試文章內容23",
+      title: "新增測試文章內容23",
+      image: "新增測試文章圖片23"
     });
     console.log("新增測試文章成功！");
     result.value = "新增測試文章成功！";
