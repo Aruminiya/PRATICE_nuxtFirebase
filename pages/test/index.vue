@@ -10,9 +10,16 @@
       <UButton @click="listArticlesBtn">列出文章</UButton>
       <hr class="my-3"/>
       <h3 class="font-bold mb-3">上傳文章</h3>
+      <UInput class="w-64 my-3" type="text" size="sm"
+        v-model="postData.title" placeholder="請輸入文章標題" />
+      <UTextarea class="w-64 my-3" size="sm"
+        v-model="postData.content" placeholder="請輸入文章內文" />
       <UButton @click="uploadArticlesBtn">上傳文章</UButton>
       <hr class="my-3"/>
       <h3 class="font-bold mb-3">取得單一文章</h3>
+      <p>該文章的 ID</p>
+      <UInput class="w-64 my-3" type="text" size="sm"
+      v-model="articleId" placeholder="請輸入文章 ID" />
       <UButton @click="getArticleBtn">取得單一文章</UButton>
       <hr class="my-3"/>
       <h3 class="font-bold mb-3">上傳圖片</h3>
@@ -57,15 +64,16 @@ const listArticlesBtn = async () => {
 }
 
 // 上傳文章
-const postData = { title: "標題 EFG", content: "內文 EFG", image: "" }
+const postData = ref({ title: "", content: "", image: "" })
 const uploadArticlesBtn = async () => {
-  const toPostData = await uploadArticles(postData);
+  const toPostData = await uploadArticles(postData.value);
   console.log(toPostData);
 }
 
 // 取得單一文章
+const articleId = ref("5b8cd485ccf49f9d3080");
 const getArticleBtn = async () => {
-  const getData = await getArticle("5b8cd485ccf49f9d3080");
+  const getData = await getArticle(articleId.value);
   console.log(getData);
 }
 
