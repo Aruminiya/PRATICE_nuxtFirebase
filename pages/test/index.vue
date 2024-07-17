@@ -43,35 +43,29 @@
 </template>
 
 <script setup>
-import { initFirestore, listArticles, uploadArticles, getArticle } from '@/composables/article.js';
-import { initStorage, uploadImg } from '@/composables/image.js'
-import { initAuth, login, checkLoginUser, singup, userSignout } from '@/composables/auth.js'
-
-// 引用初始化的 firestore 實例
-let firestore
+import { listArticles, uploadArticles, getArticle } from '@/composables/article.js';
+import { uploadImg } from '@/composables/image.js'
+import { login, checkLoginUser, singup, userSignout } from '@/composables/auth.js'
 
 // 引用初始化的 storage 實例
 let storage
 
-// 引用初始化的 auth 實例
-let auth
-
 // 列出文章
 const listArticlesBtn = async () => {
-  const allList = await listArticles(firestore);
+  const allList = await listArticles();
   console.log(allList);
 }
 
 // 上傳文章
-const postData = { title: "標題 ABC", content: "內文 ABC", image: "" }
+const postData = { title: "標題 EFG", content: "內文 EFG", image: "" }
 const uploadArticlesBtn = async () => {
-  const toPostData = await uploadArticles(firestore, postData);
+  const toPostData = await uploadArticles(postData);
   console.log(toPostData);
 }
 
 // 取得單一文章
 const getArticleBtn = async () => {
-  const getData = await getArticle(firestore, "5b8cd485ccf49f9d3080");
+  const getData = await getArticle("5b8cd485ccf49f9d3080");
   console.log(getData);
 }
 
@@ -85,7 +79,7 @@ const selectImg = (event) => {
 }
 
 const uploadImgBtn = async () => {
-  const imgUpload = await uploadImg(storage, selectedFile.value);
+  const imgUpload = await uploadImg(selectedFile.value);
   console.log(imgUpload);
 }
 
@@ -96,13 +90,13 @@ const userLoginData = ref({
 });
 
 const loginBtn = async () => {
-  const loginUser = await login(auth, userLoginData.value.email, userLoginData.value.password);
+  const loginUser = await login(userLoginData.value.email, userLoginData.value.password);
   console.log(loginUser);
 }
 
 // 查看登入狀態
 const checkLoginUserBtn = () => {
-  console.log(checkLoginUser(auth));
+  console.log(checkLoginUser());
 }
 
 // 註冊
@@ -113,18 +107,12 @@ const userSignupData = ref({
 
 // 登出
 const userSignoutBtn = async () => {
-  const loginUser = await userSignout(auth);
+  const loginUser = await userSignout();
   console.log(loginUser);
 }
 
 const signupBtn = async () => {
-  const signupUser = await singup(auth, userSignupData.value.email, userSignupData.value.password);
+  const signupUser = await singup(userSignupData.value.email, userSignupData.value.password);
   console.log(signupUser);
 }
-
-onMounted(()=>{
-  firestore = initFirestore();
-  storage = initStorage();
-  auth = initAuth();
-})
 </script>

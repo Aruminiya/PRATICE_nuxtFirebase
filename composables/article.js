@@ -15,14 +15,19 @@ import {
 import validator from 'validator';
 
 // 初始化 Firestore
-export const initFirestore = () => {
-  // 引用初始化的 firebase 實例
-  const app = getApp();
-  return getFirestore(app, 'testdb');
+let firestore
+const initFirestore = () => {
+  if (!firestore) {
+    const app = getApp();
+    firestore = getFirestore(app, 'testdb');
+    return firestore
+  } else {
+    return firestore
+  }
 }
 
 // 上傳文章
-export const uploadArticles = async (firestore, postData) => {
+export const uploadArticles = async (postData) => {
   if ( validator.isEmpty(postData.title) || validator.isEmpty(postData.content)) {
     throw new Error("文章標題和內容不得為空");
   }
@@ -34,7 +39,7 @@ export const uploadArticles = async (firestore, postData) => {
       image: postData.image || "",
       content: postData.content
     }
-    await addDoc(collection(firestore, "testComposablePosts"), data);
+    await addDoc(collection(initFirestore(), "testComposablePosts"), data);
     return data;
   } catch (error) {
     throw error;
@@ -42,9 +47,9 @@ export const uploadArticles = async (firestore, postData) => {
 }
 
 // 列出 10 筆文章
-export const listArticles = async (firestore, limitCount = 10) => {
+export const listArticles = async (limitCount = 10) => {
   try {
-    const q = query(collection(firestore, "testComposablePosts"), orderBy("createdAt", "asc"), limit(limitCount));
+    const q = query(collection(initFirestore(), "testComposablePosts"), orderBy("createdAt", "asc"), limit(limitCount));
     const querySnapshot = await getDocs(q);
     const data = querySnapshot.docs.map(doc => {
       return { 
@@ -59,9 +64,9 @@ export const listArticles = async (firestore, limitCount = 10) => {
 }
 
 // 取得單一貼文
-export const getArticle = async (firestore, id) => {
+export const getArticle = async (id) => {
   try {
-    const docSnap = await getDoc(doc(firestore, "testComposablePosts", id));
+    const docSnap = await getDoc(doc(initFirestore(), "testComposablePosts", id));
     return {id, ...(docSnap.data())}
   } catch (error) {
     throw error;

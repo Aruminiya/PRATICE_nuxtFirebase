@@ -2,21 +2,32 @@ import { getApp } from 'firebase/app';
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 // 初始化 Storage
-export const initStorage = () => {
-  // 引用初始化的 firebase 實例
-  const app = getApp();
-  return getStorage(app);
+let storage
+const initStorage = () => {
+  if (!storage) {
+    const app = getApp();
+    storage = getStorage(app);
+    return storage
+  } else {
+    return storage
+  }
 }
 
 // 上傳圖片
-export const uploadImg = async (storage, selectedFile) => {
+/**
+ * 123
+ * @param {*} storage 
+ * @param {*} selectedFile 
+ * @returns 
+ */
+export const uploadImg = async (selectedFile) => {
   if (!selectedFile) {
     throw new Error('請先選擇一張圖片');
   }
 
   // 創建一個儲存指標為 'images/${selectedFile.value.name}'
   // `reference` 是一個指向特定存儲位置的指標
-  const imagesRef = ref(storage, `images/${selectedFile.name}`);
+  const imagesRef = ref(initStorage(), `images/${selectedFile.name}`);
   // `file` 來自於 Blob 或 File API
   // 這些 API 是現代瀏覽器中用於處理文件和二進制數據的標準接口
   try {

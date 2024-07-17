@@ -1,17 +1,22 @@
 import { getAuth, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } from "firebase/auth";
 import { getApp } from 'firebase/app';
 
-// 初始化 Storage
-export const initAuth = () => {
-  // 引用初始化的 firebase 實例
-  const app = getApp();
-  return getAuth(app);
+// 初始化 Auth
+let auth
+const initAuth = () => {
+  if (!auth) {
+    const app = getApp();
+    auth = getAuth(app);
+    return auth
+  } else {
+    return auth
+  }
 }
 
 // 登入
-export const login = async (auth, email, password) => {
+export const login = async (email, password) => {
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(initAuth(), email, password);
     return userCredential
   } catch(error) {
     throw error
@@ -19,9 +24,9 @@ export const login = async (auth, email, password) => {
 };
 
 // 登出
-export const userSignout = async (auth) => {
+export const userSignout = async () => {
   try {
-    const userCredential = await signOut(auth);
+    const userCredential = await signOut(initAuth());
     return userCredential
   } catch(error) {
     throw error
@@ -29,15 +34,15 @@ export const userSignout = async (auth) => {
 };
 
 // 查看登入狀態
-export const checkLoginUser = (auth) => {
-  const user = auth.currentUser;
+export const checkLoginUser = () => {
+  const user = initAuth().currentUser;
   return user
 };
 
 // 註冊
-export const singup = async (auth, email, password) => {
+export const singup = async (email, password) => {
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const userCredential = await createUserWithEmailAndPassword(initAuth(), email, password);
     return userCredential
   } catch(error) {
     throw error
