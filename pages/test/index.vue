@@ -10,6 +10,9 @@
       <UButton class="mr-3" @click="listArticlesBtn">列出文章</UButton>
       <UButton @click="listNextArticlesBtn">列出更多文章</UButton>
       <hr class="my-3"/>
+      <h3 class="font-bold mb-3">獲取文章總數</h3>
+      <UButton class="mr-3" @click="fetchArticlesCount">獲取文章總數</UButton>
+      <hr class="my-3"/>
       <h3 class="font-bold mb-3">上傳文章</h3>
       <UInput class="w-64 my-3" type="text" size="sm"
         v-model="postData.title" placeholder="請輸入文章標題" />
@@ -51,7 +54,7 @@
 </template>
 
 <script setup>
-import { listArticles, uploadArticles, getArticle } from '@/composables/article.js';
+import { listArticles, uploadArticles, getArticle, getArticlesCount } from '@/composables/article.js';
 import { uploadImg } from '@/composables/image.js'
 import { login, checkLoginUser, singup, userSignout } from '@/composables/auth.js'
 
@@ -66,11 +69,25 @@ const listArticlesBtn = async () => {
   allList.lastDoc = lastDoc;
   console.log(allList);
 }
+
 // 列出更多文章
 const listNextArticlesBtn = async () => {
-  let result = await listArticles(allList.lastDoc);
-  allList.data = allList.data.concat(result.data);
-  console.log(allList);
+  const articlesCount = await fetchArticlesCount();
+  if( allList.data.length < articlesCount) {
+    let result = await listArticles(allList.lastDoc);
+    allList.data = allList.data.concat(result.data);
+    console.log(allList);
+  } else {
+    console.log("已經沒有更多文章！")
+  }
+
+}
+
+// 獲取文章總數
+const fetchArticlesCount = async () => {
+  const totalArticles = await getArticlesCount();
+  console.log(totalArticles);
+  return totalArticles
 }
 
 // 上傳文章

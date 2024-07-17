@@ -9,7 +9,8 @@ import {
   addDoc,
   doc,
   startAfter,
-  getDoc
+  getDoc,
+  getCountFromServer
 } from "firebase/firestore";
 
 // 初始化 Firestore
@@ -83,6 +84,21 @@ export const listArticles = async (lastVisible = undefined, limitCount = 10) => 
     console.log(error);
     const errorResponse = {
       message: '列出文章失敗。',
+      error
+    };
+    throw new Error(errorResponse);
+  }
+}
+
+// 獲取文章總數
+export const getArticlesCount = async () => {
+  try {
+    const coll = collection(initFirestore(), "testComposablePosts");
+    const snapshot = await getCountFromServer(coll);
+    return snapshot.data().count;
+  } catch (error) {
+    const errorResponse = {
+      message: '獲取文章總數失敗。',
       error
     };
     throw new Error(errorResponse);
