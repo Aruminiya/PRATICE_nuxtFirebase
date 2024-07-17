@@ -44,13 +44,28 @@ const methodColor = (color)=>{
 }
 
 const links = ref([
-{ 
+  { 
     name: "test",
     childLinks: [
       {
       link: '/test',
       name: '自由測試區',
       descript: '自由測試區',
+      }
+    ] 
+  },
+  { 
+    name: "authentication",
+    childLinks: [
+      {
+      link: '/authentication/login',
+      name: 'login',
+      descript: '登入功能',
+      },
+      {
+      link: '/authentication/signup',
+      name: 'signup',
+      descript: '註冊功能',
       }
     ] 
   },
