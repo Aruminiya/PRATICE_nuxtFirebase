@@ -42,10 +42,10 @@ export const uploadImg = async (selectedFile) => {
     };
     return response
   } catch (error) {
-    const response = {
-      message: '上傳失敗',
-      error: error.message,
+    const errorResponse = {
+      message: '圖片上傳失敗。',
+      error
     };
-    throw new Error(response);
+    throw new Error(errorResponse);
   }
 }

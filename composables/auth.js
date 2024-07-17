@@ -19,19 +19,21 @@ export const login = async (email, password) => {
     const userCredential = await signInWithEmailAndPassword(initAuth(), email, password);
     return userCredential
   } catch(error) {
-    console.error(error);
-    let errorMessage;
+    const errorResponse = {
+      message: '',
+      error
+    };
     switch (error.code) {
       case 'auth/invalid-email':
-        errorMessage = '電子郵件地址格式不正確。';
+        errorResponse.message = '電子郵件地址格式不正確。';
         break;
       case 'auth/invalid-credential':
-        errorMessage = '帳號或密碼不正確。';
+        errorResponse.message = '帳號或密碼不正確。';
         break;
       default:
-        errorMessage = '登入過程中發生錯誤。';
+        errorResponse.message = '登入過程中發生錯誤。';
     }
-    throw new Error(errorMessage);
+    throw new Error(errorResponse);
   }
 };
 
@@ -41,9 +43,11 @@ export const userSignout = async () => {
     const userCredential = await signOut(initAuth());
     return userCredential
   } catch(error) {
-    console.error(error);
-    let errorMessage = '登出過程中發生錯誤。';
-    throw new Error(errorMessage);
+    const errorResponse = {
+      message: '登出過程中發生錯誤。',
+      error
+    };
+    throw new Error(errorResponse);
   }
 };
 
@@ -59,21 +63,23 @@ export const singup = async (email, password) => {
     const userCredential = await createUserWithEmailAndPassword(initAuth(), email, password);
     return userCredential
   } catch(error) {
-    console.error(error);
-    let errorMessage;
+    const errorResponse = {
+      message: '',
+      error
+    };
     switch (error.code) {
       case 'auth/email-already-in-use':
-        errorMessage = '該電子郵件地址已經被使用。';
+        errorResponse.message = '該電子郵件地址已經被使用。';
         break;
       case 'auth/invalid-email':
-        errorMessage = '電子郵件地址格式不正確。';
+        errorResponse.message = '電子郵件地址格式不正確。';
         break;
       case 'auth/weak-password':
-        errorMessage = '密碼強度不足。';
+        errorResponse.message = '密碼強度不足。';
         break;
       default:
-        errorMessage = '註冊過程中發生錯誤。';
+        errorResponse.message = '註冊過程中發生錯誤。';
     }
-    throw new Error(errorMessage);
+    throw new Error(errorResponse);
   }
 };

@@ -40,9 +40,11 @@ export const uploadArticles = async (postData) => {
     await addDoc(collection(initFirestore(), "testComposablePosts"), data);
     return data;
   } catch (error) {
-    console.error(error);
-    let errorMessage = '文章上傳失敗。';
-    throw new Error(errorMessage);
+    const errorResponse = {
+      message: '文章上傳失敗。',
+      error
+    };
+    throw new Error(errorResponse);
   }
 }
 
@@ -59,9 +61,11 @@ export const listArticles = async (limitCount = 10) => {
     });
     return data;
   } catch (error) {
-    console.error(error);
-    let errorMessage = '列出文章失敗。';
-    throw new Error(errorMessage);
+    const errorResponse = {
+      message: '列出文章失敗。',
+      error
+    };
+    throw new Error(errorResponse);
   }
 }
 
@@ -71,8 +75,10 @@ export const getArticle = async (id) => {
     const docSnap = await getDoc(doc(initFirestore(), "testComposablePosts", id));
     return {id, ...(docSnap.data())}
   } catch (error) {
-    console.error(error);
-    let errorMessage = '取得單一文章失敗。';
-    throw new Error(errorMessage);
+    const errorResponse = {
+      message: '取得單一文章失敗。',
+      error
+    };
+    throw new Error(errorResponse);
   }
 }
