@@ -8,6 +8,7 @@ import {
   orderBy,
   addDoc,
   doc,
+  startAfter,
   getDoc
 } from "firebase/firestore";
 
@@ -49,18 +50,37 @@ export const uploadArticles = async (postData) => {
 }
 
 // 列出 10 筆文章
-export const listArticles = async (limitCount = 10) => {
+export const listArticles = async (lastVisible = undefined, limitCount = 10) => {
   try {
-    const q = query(collection(initFirestore(), "testComposablePosts"), orderBy("createdAt", "asc"), limit(limitCount));
+    let q;
+    if (lastVisible) {
+      q = query(
+        collection(initFirestore(), "testComposablePosts"),
+        orderBy("createdAt", "asc"),
+        startAfter(lastVisible),
+        limit(limitCount)
+      );
+    } else {
+      q = query(
+        collection(initFirestore(), "testComposablePosts"),
+        orderBy("createdAt", "asc"),
+        limit(limitCount)
+      );
+    }
     const querySnapshot = await getDocs(q);
+
+    // 獲取最後一個文檔，用於下一頁的查詢
+    const lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
+
     const data = querySnapshot.docs.map(doc => {
-      return { 
+      return {
         id: doc.id,
         ...doc.data()
       }
     });
-    return data;
+    return { lastDoc, data } ;
   } catch (error) {
+    console.log(error);
     const errorResponse = {
       message: '列出文章失敗。',
       error

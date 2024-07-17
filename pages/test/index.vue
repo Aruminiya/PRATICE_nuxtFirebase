@@ -7,7 +7,8 @@
     <!-- 測試區塊 -->
     <section class="col-span-9">
       <h3 class="font-bold mb-3">列出文章</h3>
-      <UButton @click="listArticlesBtn">列出文章</UButton>
+      <UButton class="mr-3" @click="listArticlesBtn">列出文章</UButton>
+      <UButton @click="listNextArticlesBtn">列出更多文章</UButton>
       <hr class="my-3"/>
       <h3 class="font-bold mb-3">上傳文章</h3>
       <UInput class="w-64 my-3" type="text" size="sm"
@@ -54,12 +55,21 @@ import { listArticles, uploadArticles, getArticle } from '@/composables/article.
 import { uploadImg } from '@/composables/image.js'
 import { login, checkLoginUser, singup, userSignout } from '@/composables/auth.js'
 
-// 引用初始化的 storage 實例
-let storage
-
 // 列出文章
+let allList = {
+  data: null,
+  lastDoc: null
+}
 const listArticlesBtn = async () => {
-  const allList = await listArticles();
+  const { lastDoc, data } = await listArticles();
+  allList.data = data;
+  allList.lastDoc = lastDoc;
+  console.log(allList);
+}
+// 列出更多文章
+const listNextArticlesBtn = async () => {
+  let result = await listArticles(allList.lastDoc);
+  allList.data = allList.data.concat(result.data);
   console.log(allList);
 }
 
