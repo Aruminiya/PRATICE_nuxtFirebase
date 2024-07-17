@@ -1,4 +1,4 @@
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } from "firebase/auth";
 import { getApp } from 'firebase/app';
 
 // 初始化 Storage
@@ -12,6 +12,16 @@ export const initAuth = () => {
 export const login = async (auth, email, password) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    return userCredential
+  } catch(error) {
+    throw error
+  }
+};
+
+// 登出
+export const userSignout = async (auth) => {
+  try {
+    const userCredential = await signOut(auth);
     return userCredential
   } catch(error) {
     throw error

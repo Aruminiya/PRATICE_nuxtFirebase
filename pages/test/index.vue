@@ -35,6 +35,9 @@
       <UInput class="w-64 my-3" type="password" size="sm"
         placeholder="請輸入 Password" v-model="userSignupData.password"/>
       <UButton @click="signupBtn">註冊</UButton>
+      <hr class="my-3"/>
+      <h3 class="font-bold mb-3">登出</h3>
+      <UButton @click="userSignoutBtn">登出</UButton>
     </section>
   </main>
 </template>
@@ -42,7 +45,7 @@
 <script setup>
 import { initFirestore, listArticles, uploadArticles, getArticle } from '@/composables/article.js';
 import { initStorage, uploadImg } from '@/composables/image.js'
-import { initAuth, login, checkLoginUser, singup } from '@/composables/auth.js'
+import { initAuth, login, checkLoginUser, singup, userSignout } from '@/composables/auth.js'
 
 // 引用初始化的 firestore 實例
 let firestore
@@ -107,6 +110,12 @@ const userSignupData = ref({
   email: "",
   password: ""
 });
+
+// 登出
+const userSignoutBtn = async () => {
+  const loginUser = await userSignout(auth);
+  console.log(loginUser);
+}
 
 const signupBtn = async () => {
   const signupUser = await singup(auth, userSignupData.value.email, userSignupData.value.password);

@@ -63,6 +63,11 @@ const links = ref([
       descript: '登入功能',
       },
       {
+      link: '/authentication/signout',
+      name: 'signout',
+      descript: '登出功能',
+      },
+      {
       link: '/authentication/signup',
       name: 'signup',
       descript: '註冊功能',
