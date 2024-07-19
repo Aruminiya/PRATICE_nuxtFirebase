@@ -13,6 +13,14 @@ import {
   getCountFromServer
 } from "firebase/firestore";
 
+const variableConfig = {
+  firestoreCollection: "testComposablePosts",
+  sort:{
+    by: "createdAt",
+    type: "asc"
+  }
+}
+
 // 初始化 Firestore
 let firestore
 const initFirestore = () => {
@@ -39,7 +47,7 @@ export const uploadArticles = async (postData) => {
       image: postData.image || "",
       content: postData.content
     }
-    await addDoc(collection(initFirestore(), "testComposablePosts"), data);
+    await addDoc(collection(initFirestore(), variableConfig.firestoreCollection), data);
     return data;
   } catch (error) {
     const errorResponse = {
@@ -51,20 +59,24 @@ export const uploadArticles = async (postData) => {
 }
 
 // 列出 10 筆文章
+/**
+ * @param {*} lastVisible - 前一個文章回傳快照
+ * @param {number} limitCount - 文章回傳限制數量
+ */
 export const listArticles = async (lastVisible = undefined, limitCount = 10) => {
   try {
     let q;
     if (lastVisible) {
       q = query(
-        collection(initFirestore(), "testComposablePosts"),
-        orderBy("createdAt", "asc"),
+        collection(initFirestore(), variableConfig.firestoreCollection),
+        orderBy(variableConfig.sort.by, variableConfig.sort.type),
         startAfter(lastVisible),
         limit(limitCount)
       );
     } else {
       q = query(
-        collection(initFirestore(), "testComposablePosts"),
-        orderBy("createdAt", "asc"),
+        collection(initFirestore(), variableConfig.firestoreCollection),
+        orderBy(variableConfig.sort.by, variableConfig.sort.type),
         limit(limitCount)
       );
     }
@@ -93,7 +105,7 @@ export const listArticles = async (lastVisible = undefined, limitCount = 10) => 
 // 獲取文章總數
 export const getArticlesCount = async () => {
   try {
-    const coll = collection(initFirestore(), "testComposablePosts");
+    const coll = collection(initFirestore(), variableConfig.firestoreCollection);
     const snapshot = await getCountFromServer(coll);
     return snapshot.data().count;
   } catch (error) {
@@ -106,9 +118,12 @@ export const getArticlesCount = async () => {
 }
 
 // 取得單一文章
+/**
+ * @param {string} id - 文章 ID
+ */
 export const getArticle = async (id) => {
   try {
-    const docSnap = await getDoc(doc(initFirestore(), "testComposablePosts", id));
+    const docSnap = await getDoc(doc(initFirestore(), variableConfig.firestoreCollection, id));
     return {id, ...(docSnap.data())}
   } catch (error) {
     const errorResponse = {

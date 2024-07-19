@@ -14,6 +14,10 @@ const initAuth = () => {
 }
 
 // 登入
+/**
+ * @param {string} email - 電子信箱
+ * @param {string} password - 密碼
+ */
 export const login = async (email, password) => {
   try {
     const userCredential = await signInWithEmailAndPassword(initAuth(), email, password);
@@ -57,6 +61,10 @@ export const checkLoginUser = () => {
   return user
 };
 
+/**
+ * @param {string} email - 電子信箱
+ * @param {string} password - 密碼
+ */
 // 註冊
 export const singup = async (email, password) => {
   try {
