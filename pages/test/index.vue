@@ -73,12 +73,13 @@ const listArticlesBtn = async () => {
 // 列出更多文章
 const listNextArticlesBtn = async () => {
   const articlesCount = await fetchArticlesCount();
-  if( allList.data.length < articlesCount) {
+  if( allList.data.length < articlesCount ) {
     let result = await listArticles(allList.lastDoc);
     allList.data = allList.data.concat(result.data);
+    allList.lastDoc = result.lastDoc
     console.log(allList);
   } else {
-    console.log("已經沒有更多文章！")
+    console.error("已經沒有更多文章！")
   }
 
 }
